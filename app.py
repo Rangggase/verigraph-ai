@@ -14,12 +14,14 @@ from src.relation_extraction import extract_relation_candidates, build_assertion
 from src.batch_pipeline import (load_records, guess_column, normalize_records, approved_links_from_csv,
                                 build_batch_graph, export_graph_bundle)
 from src.errors import friendly_error
+from src.theme import apply_global_theme, unverified_banner
 from src.quality_ui import render_quality_tab
 from src.reviewed_ui import render_reviewed_tab
 from src.classification_ui import render_classification_tab
 from src.ner_annotation_ui import render_ner_annotation_tab
 
-st.set_page_config(page_title="VeriGraph AI | Multilingual KG", layout="wide")
+st.set_page_config(page_title="VeriGraph AI | KG multibahasa", page_icon="🕸️", layout="wide")
+apply_global_theme(st)
 
 # BEGIN VERIGRAPH V061B BEGINNER ENTRYPOINT
 from src.easy_home_ui import render_easy_home
@@ -34,11 +36,11 @@ if _vg_mode == "Mudah digunakan":
     st.stop()
 # END VERIGRAPH V061B BEGINNER ENTRYPOINT
 
-st.title("VeriGraph AI — Multilingual Knowledge Graph")
-st.caption("v0.6.0 Master • reviewed KG + claim-only ML baselines (NOT fact verification)")
+st.title("VeriGraph AI — knowledge graph klaim multibahasa")
+unverified_banner(st, "Alat ini membangun graf dari <strong>klaim yang belum terverifikasi</strong>. Ia tidak memeriksa kebenaran klaim.")
 
 graph = make_graph()
-curated_tab, ner_tab, relation_tab, batch_tab, quality_tab, reviewed_tab, classification_tab, annotation_tab = st.tabs(["1. Curated KG (v0.1)", "2. NER & Wikidata (v0.2)", "3. Candidate Relations (v0.3)", "4. Batch Dataset KG (v0.4)", "5. KG Quality & Enrichment (v0.4.1)", "6. Reviewed & Clean KG (v0.4.2)", "7. ML Baselines (v0.5)", "8. Chinese NER Review (v0.6.1a)"])
+curated_tab, ner_tab, relation_tab, batch_tab, quality_tab, reviewed_tab, classification_tab, annotation_tab = st.tabs(["1. KG contoh", "2. NER & Wikidata", "3. Relasi kandidat", "4. KG dari dataset", "5. Kualitas KG", "6. KG bersih hasil review", "7. Baseline ML", "8. Review NER Mandarin"])
 
 
 @st.cache_resource(show_spinner="Loading multilingual NER model (first use downloads weights)...")
@@ -51,27 +53,27 @@ def dot_escape(value: str) -> str:
 
 
 with curated_tab:
-    st.info("This first demo parses only capital-of relationships and uses a small curated fact graph.")
+    st.info("Demo awal ini hanya membaca relasi ibu kota dan memakai graf fakta kecil yang disusun manual.")
     claims = read_csv("demo_claims.csv")
     left, right = st.columns([1, 1])
     with left:
-        language = st.selectbox("Language", ["id", "en", "zh"],
+        language = st.selectbox("Bahasa", ["id", "en", "zh"],
                                 format_func={"id": "Bahasa Indonesia", "en": "English", "zh": "中文"}.get,
                                 key="demo_language")
         samples = [row for row in claims if row["language"] == language]
-        demo = st.selectbox("Example claim", samples, format_func=lambda r: r["text"])
-        text = st.text_area("Claim (editable)", value=demo["text"], height=90,
+        demo = st.selectbox("Contoh klaim", samples, format_func=lambda r: r["text"])
+        text = st.text_area("Klaim (dapat diubah)", value=demo["text"], height=90,
                             key=f"demo_{demo['claim_id']}")
-        if st.button("Inspect relation", type="primary"):
+        if st.button("Periksa relasi", type="primary"):
             st.session_state["demo_result"] = parse_demo_claim(text, language, graph)
     with right:
-        st.subheader("KG inspection result")
+        st.subheader("Hasil pemeriksaan KG")
         result = st.session_state.get("demo_result")
         if result:
             if result["status"] == "supported":
-                st.success("SUPPORTED BY CURATED DEMO KG")
+                st.success("SESUAI DENGAN KG DEMO")
             elif result["status"] == "conflict":
-                st.warning("CONFLICTS WITH CURATED DEMO KG")
+                st.warning("BERTENTANGAN DENGAN KG DEMO")
             else:
                 st.info(result["status"].upper().replace("_", " "))
             st.write(result.get("message", ""))
@@ -82,9 +84,9 @@ with curated_tab:
             with st.expander("Structured output"):
                 st.json(result)
         else:
-            st.info("Choose a sample and click Inspect relation.")
+            st.info("Pilih contoh klaim lalu tekan Periksa relasi.")
 
-    st.subheader("Curated multilingual graph")
+    st.subheader("Graf contoh multibahasa")
     label_key = {"id": "label_id", "en": "label_en", "zh": "label_zh"}[language]
     dot_lines = ["digraph G {", "rankdir=LR;", "node [shape=box];"]
     for entity_id, attrs in graph.nodes(data=True):
@@ -98,8 +100,8 @@ with curated_tab:
 
 with ner_tab:
     st.subheader("Automatic multilingual NER")
-    st.caption("Detects entities, suggests Wikidata candidates, and creates an UNVERIFIED claim-mention graph. Not a fake-news classifier.")
-    lang = st.selectbox("Input language", ["id", "en", "zh"],
+    st.caption("Mendeteksi entitas, menyarankan kandidat Wikidata, dan membuat graf klaim–entitas yang BELUM TERVERIFIKASI. Bukan pendeteksi hoaks.")
+    lang = st.selectbox("Bahasa input", ["id", "en", "zh"],
                         format_func={"id": "Bahasa Indonesia", "en": "English", "zh": "中文"}.get,
                         key="ner_language")
     examples = {
@@ -107,12 +109,12 @@ with ner_tab:
         "en": "Barack Obama visited Paris and met Angela Merkel.",
         "zh": "习近平在北京出席会议。",
     }
-    user_text = st.text_area("Free-form input (max 1,500 characters)",
+    user_text = st.text_area("Teks bebas (maks. 1.500 karakter)",
                              value=examples[lang], height=120, key=f"ner_text_{lang}")
     threshold = st.slider("NER confidence threshold", min_value=0.1, max_value=0.9,
                           value=0.35, step=0.05)
     st.caption(f"Checkpoint: {MODEL_ID}. First use downloads model weights; CPU inference may be slow. Evaluate entity quality for all three languages.")
-    if st.button("Extract named entities", type="primary"):
+    if st.button("Ekstrak entitas", type="primary"):
         try:
             with st.spinner("Running model-based entity extraction..."):
                 recognized = extract_entities(user_text, lang, cached_ner(), threshold)
@@ -125,14 +127,14 @@ with ner_tab:
 
     state = st.session_state.get("ner_output")
     if state and (state["text"] != user_text or state["language"] != lang):
-        st.info("Input changed. Click 'Extract named entities' to refresh the graph.")
+        st.info("Input berubah. Tekan 'Ekstrak entitas' untuk memperbarui graf.")
         state = None
 
     if state:
         recognized = state["entities"]
         st.write(f"Detected entities: **{len(recognized)}**")
         if not recognized:
-            st.warning("No entities detected above this confidence threshold. Try a lower threshold or longer text.")
+            st.warning("Tidak ada entitas di atas ambang kepercayaan ini. Turunkan ambang atau gunakan teks lebih panjang.")
         else:
             st.dataframe(recognized, use_container_width=True)
             st.subheader("Entity linking & human review")
@@ -150,7 +152,7 @@ with ner_tab:
                         st.write(link["url"])
                     else:
                         st.info("Unresolved mention: no automatic Wikidata ID assignment.")
-                        if st.button("Search Wikidata candidates", key=f"search_{i}"):
+                        if st.button("Cari kandidat Wikidata", key=f"search_{i}"):
                             try:
                                 state["candidates"][i] = search_wikidata_candidates(ent["text"], lang)
                             except Exception as exc:
@@ -167,7 +169,7 @@ with ner_tab:
                                 )
                                 selected = hits[choice]
                                 st.write(selected["url"])
-                                if st.button("Approve selected Wikidata identity", key=f"approve_{i}"):
+                                if st.button("Setujui identitas Wikidata terpilih", key=f"approve_{i}"):
                                     state["links"][i] = {
                                         **selected,
                                         "method": "manually_approved_wikidata_candidate",
@@ -186,9 +188,9 @@ with ner_tab:
             st.graphviz_chart("\n".join(dot_lines), use_container_width=True)
             output = json.dumps(json_graph.node_link_data(mention_graph, edges="links"),
                                 ensure_ascii=False, indent=2)
-            st.download_button("Download mention graph (JSON)", output,
+            st.download_button("Unduh graf mention (JSON)", output,
                                file_name="claim_mentions.json", mime="application/json")
-            st.warning("MENTIONS means the claim contains an entity name. It does NOT establish that the claim or any factual relation is true.")
+            st.warning("MENTIONS berarti klaim memuat nama entitas. Ini TIDAK membuktikan klaim atau relasi apa pun benar.")
 
 with relation_tab:
     st.subheader("Candidate relation extraction & KG construction")
@@ -202,7 +204,7 @@ with relation_tab:
     )
     kg_state = st.session_state.get("ner_output")
     if not kg_state:
-        st.info("No extraction yet. Go to tab 2, enter a claim, and click 'Extract named entities'.")
+        st.info("Belum ada ekstraksi. Buka tab 2, masukkan klaim, lalu tekan 'Ekstrak entitas'.")
     elif kg_state["text"] != user_text or kg_state["language"] != lang:
         st.info("Current input was edited after extraction. Re-run NER in tab 2 first.")
     else:
@@ -264,7 +266,7 @@ with relation_tab:
             "graph": json_graph.node_link_data(rel_graph, edges="links"),
         }
         st.download_button(
-            "Download candidate KG + provenance (JSON)",
+            "Unduh KG kandidat + provenans (JSON)",
             data=json.dumps(payload, indent=2, ensure_ascii=False),
             file_name="verigraph_candidate_kg_v03.json",
             mime="application/json",
@@ -367,7 +369,7 @@ with batch_tab:
                                key="v04_link_template")
             links_upload = st.file_uploader("Human-reviewed links CSV", type=["csv"],
                                             key="v04_links_upload")
-            if st.button("Build batch candidate KG", type="primary", key="v04_build"):
+            if st.button("Bangun KG kandidat", type="primary", key="v04_build"):
                 try:
                     mapped_links = (approved_links_from_csv(links_upload.getvalue())
                                     if links_upload is not None else {})
@@ -410,7 +412,7 @@ with batch_tab:
         if bundle.get("rejected_rows"):
             with st.expander("Skipped rows"):
                 st.dataframe(bundle["rejected_rows"])
-        st.download_button("Download batch KG JSON", json.dumps(bundle, ensure_ascii=False, indent=2),
+        st.download_button("Unduh KG batch (JSON)", json.dumps(bundle, ensure_ascii=False, indent=2),
                            file_name="verigraph_batch_kg_v04.json", mime="application/json")
         st.subheader("Graph preview — first six claims and their mentions")
         from networkx.readwrite import json_graph as _json_graph

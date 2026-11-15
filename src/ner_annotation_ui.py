@@ -21,26 +21,20 @@ from src.ner_ui_v2_helpers import (
 )
 
 STYLE = '''<style>
-/* Beginner mode only. Technical review remains a separate path. */
-.block-container { max-width: 990px !important; padding-top: .65rem !important; padding-bottom: 2.8rem !important; }
-.vg-kicker {font-size:.76rem; font-weight:800; letter-spacing:.1em; color:#27c6b6; margin:.45rem 0 .25rem;}
-.vg-headline {font-size:clamp(1.4rem, 2.5vw, 1.9rem); font-weight:800; line-height:1.24; margin:0 0 .22rem;}
-.vg-subheadline {font-size:.94rem; color:#b9c4cb; line-height:1.45; margin:0 0 .75rem;}
-.vg-sentence {font-size:clamp(1.2rem,2.05vw,1.52rem); line-height:2.05;letter-spacing:.012em;
-  padding:19px 23px; background:rgba(100,136,154,.11); border:1px solid rgba(127,169,173,.4);
-  border-radius:15px; overflow-wrap:anywhere; margin:.34rem 0 .65rem;}
-.vg-highlight {background:#f7db76; color:#1d262d; border-radius:4px; padding:2px 2px;
- box-decoration-break:clone; -webkit-box-decoration-break:clone; font-weight:800;}
-.vg-small {color:#b6c3c8; font-size:.90rem; line-height:1.5;}
-.vg-status {color:#43d3bf; font-weight:750; font-size:.86rem;}
-.vg-question {font-size:1.13rem; font-weight:750; margin:.48rem 0 .35rem;}
-.vg-current {font-size:1.08rem;font-weight:750;margin:.15rem 0 .45rem;}
-.vg-pill {background:rgba(48,145,142,.15); border:1px solid rgba(60,165,157,.4); border-radius:12px;
- padding:.52rem .72rem; margin-bottom:.65rem; font-size:.91rem;}
-/* Only improve touch targets; preserve Streamlit focus rings and keyboard semantics. */
-.stButton > button {min-height:48px; border-radius:11px; font-weight:700; font-size:.99rem;}
-.stButton > button:focus-visible {outline:3px solid #58d8d0; outline-offset:2px;}
-[data-testid="stMetricValue"] {font-size:1.38rem;}
+/* Guided reviewer: uses tokens from src/theme.py (loaded globally). */
+.block-container { max-width: 990px !important; }
+.vg-kicker {font-size:.9rem; font-weight:700; color:var(--vg-teal); margin:.45rem 0 .25rem;}
+.vg-headline {font-size:clamp(1.4rem, 2.5vw, 1.9rem); margin:0 0 .22rem;}
+.vg-subheadline {font-size:1rem; color:var(--vg-ink-muted); line-height:1.5; margin:0 0 .75rem;}
+.vg-sentence {font-size:clamp(1.2rem,2.05vw,1.52rem); line-height:2;
+  padding:19px 23px; background:var(--vg-surface); border:1.5px solid var(--vg-line);
+  border-radius:var(--vg-radius); overflow-wrap:anywhere; margin:.34rem 0 .65rem;}
+.vg-small {color:var(--vg-ink-muted); font-size:.92rem; line-height:1.5;}
+.vg-status {color:var(--vg-teal); font-weight:700; font-size:.92rem;}
+.vg-question {font-size:1.13rem; font-weight:700; margin:.48rem 0 .35rem;}
+.vg-current {font-size:1.08rem;font-weight:700;margin:.15rem 0 .45rem;}
+.vg-pill {background:var(--vg-surface); border:1.5px solid var(--vg-line); border-radius:var(--vg-radius);
+ padding:.52rem .72rem; margin-bottom:.65rem; font-size:.95rem;}
 @media (max-width:650px) { .vg-sentence{padding:13px 15px;} .vg-headline{font-size:1.5rem;} }
 </style>'''
 
