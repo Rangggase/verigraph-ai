@@ -60,7 +60,7 @@ def test_pilot_baseline_has_no_evidence_features(tmp_path):
 
 
 def test_reviewed_graph_preserves_current_export():
-    p=Path(__file__).resolve().parents[1]/'outputs'/'batch_kg_v042.json'
+    p=Path(__file__).resolve().parents[1]/'data'/'examples'/'batch_kg_v042_reviewed.json'
     data=json.loads(p.read_text(encoding='utf8'))
     assert data['validation']['passed']
     assert data['report']['mention_decisions']['accepted_mention']==5
