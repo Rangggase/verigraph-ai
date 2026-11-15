@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 import pytest
-from src.classification_data import load_examples, prepare_split, sanitize_training, verify_disjoint
+from src.classification_data import load_examples, sanitize_training, verify_disjoint
 from scripts.train_ml_baseline import train
 
 

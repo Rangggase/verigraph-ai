@@ -9,10 +9,9 @@ graphs, review tables, and reproducible, fail-closed validation diagnostics.
 """
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 import copy
 import json
-import re
 from typing import Any
 
 import networkx as nx

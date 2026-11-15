@@ -64,6 +64,8 @@ def train(args):
     out = Path(args.output)
     out.mkdir(parents=True, exist_ok=True)
     joblib.dump(clf, out / 'model.joblib')
+    from src.model_integrity import write_sidecar
+    write_sidecar(out / 'model.joblib')
     with (out / 'metrics.json').open('w',encoding='utf-8') as f:
         json.dump(report, f, ensure_ascii=False, indent=2)
     with (out / 'predictions.csv').open('w',encoding='utf-8',newline='') as f:

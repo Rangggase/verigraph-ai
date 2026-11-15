@@ -1,13 +1,38 @@
+# Environments & secrets
 .venv/
-__pycache__/
-.pytest_cache/
-*.py[cod]
+venv/
+env/
 .env
 .env.*
 !.env.example
+
+# Python / tooling caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# JS (E2E tooling)
+node_modules/
+playwright-report/
+test-results/
+
+# OS / editor / temp
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+*.backup
+.idea/
+.vscode/
+
+# Generated outputs (reproducible; large or user-specific)
 outputs/*
 !outputs/.gitkeep
-.DS_Store
 
-# Locally downloaded evaluation data: large files, licenses, and provenance
+# Locally downloaded evaluation data: large files, licenses, provenance
 data/datasets/

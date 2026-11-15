@@ -1,6 +1,5 @@
 """Read-only quality check for the v0.6.1a Chinese NER review workspace."""
 from pathlib import Path
-import json
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]

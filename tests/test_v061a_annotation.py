@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from src.ner_annotation import (
-    CORE_LABELS, add_manual_mention, all_candidates, export_check,
+    add_manual_mention, export_check,
     export_reviewed_jsonl, load_candidates, load_state, new_state,
     review_summary, save_candidate_decision, save_claim_review,
     validate_span,

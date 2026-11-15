@@ -10,7 +10,7 @@ import copy
 import json
 import re
 from collections import Counter, defaultdict
-from typing import Any, Callable, Mapping
+from typing import Any, Callable
 
 import networkx as nx
 from networkx.readwrite import json_graph

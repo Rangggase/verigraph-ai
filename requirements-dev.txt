@@ -1,0 +1,2 @@
+-r requirements-ml.txt
+ruff>=0.6

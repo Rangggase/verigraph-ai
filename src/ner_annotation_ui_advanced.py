@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 from src.ner_annotation import (
-    ACTIONS, CLAIM_ACTIONS, CORE_LABELS, add_manual_mention, all_candidates,
+    ACTIONS, CLAIM_ACTIONS, add_manual_mention, all_candidates,
     export_check, export_reviewed_jsonl, load_candidates, load_state,
     review_summary, save_candidate_decision, save_claim_review,
 )

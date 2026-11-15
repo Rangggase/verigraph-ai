@@ -13,6 +13,7 @@ from src.ner_pipeline import load_ner_model, extract_entities, MODEL_ID
 from src.relation_extraction import extract_relation_candidates, build_assertion_graph
 from src.batch_pipeline import (load_records, guess_column, normalize_records, approved_links_from_csv,
                                 build_batch_graph, export_graph_bundle)
+from src.errors import friendly_error
 from src.quality_ui import render_quality_tab
 from src.reviewed_ui import render_reviewed_tab
 from src.classification_ui import render_classification_tab
@@ -120,7 +121,7 @@ with ner_tab:
                 "links": {}, "candidates": {},
             }
         except Exception as exc:
-            st.error(f"Extraction failed: {exc}")
+            st.error(friendly_error(exc, "Ekstraksi entitas"))
 
     state = st.session_state.get("ner_output")
     if state and (state["text"] != user_text or state["language"] != lang):
@@ -153,7 +154,7 @@ with ner_tab:
                             try:
                                 state["candidates"][i] = search_wikidata_candidates(ent["text"], lang)
                             except Exception as exc:
-                                st.warning(f"Wikidata lookup failed: {exc}")
+                                st.warning(friendly_error(exc, "Pencarian Wikidata"))
                         if i in state["candidates"]:
                             hits = state["candidates"][i]
                             if not hits:
@@ -322,7 +323,7 @@ with batch_tab:
         try:
             raw_rows = load_records(raw_content, filename)
         except Exception as exc:
-            st.error(f"Import failed: {exc}")
+            st.error(friendly_error(exc, "Impor dataset"))
             raw_rows = []
         if raw_rows:
             st.success(f"Loaded a preview of {len(raw_rows)} rows (maximum first 1,000); no model run yet.")
@@ -394,7 +395,7 @@ with batch_tab:
                     st.session_state["v04_bundle"] = bundle
                     st.success(f"Completed. Saved to {output_path.relative_to(root)}")
                 except Exception as exc:
-                    st.error(f"Batch failed: {exc}")
+                    st.error(friendly_error(exc, "Pembuatan KG batch"))
 
     bundle = st.session_state.get("v04_bundle")
     if bundle:

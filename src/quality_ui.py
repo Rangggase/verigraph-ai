@@ -11,6 +11,7 @@ from pathlib import Path
 
 from networkx.readwrite import json_graph
 
+from src.errors import friendly_error
 from src.entity_linking import search_wikidata_candidates
 from src.kg_enrichment import load_v04_bundle, review_rows, enrich_bundle
 
@@ -44,7 +45,7 @@ def render_quality_tab(st, root: Path, dot_escape):
         bundle, graph = load_v04_bundle(raw)
         mentions = review_rows(graph)
     except Exception as exc:
-        st.error(f"Could not load batch graph: {exc}")
+        st.error(friendly_error(exc, "Pemuatan graf batch"))
         return
     file_token = hashlib.sha256(raw).hexdigest()[:12]
     st.success(f"Loaded {len(mentions)} mention instances from {len(bundle.get('runs', []))} processed claims")
@@ -82,7 +83,7 @@ def render_quality_tab(st, root: Path, dot_escape):
                         mentions[pick]["surface"], mentions[pick]["language"], limit=5)
                     st.session_state["v041_wikidata_query"] = mentions[pick]["mention_key"]
                 except Exception as exc:
-                    st.error(f"Wikidata request failed: {exc}")
+                    st.error(friendly_error(exc, "Permintaan Wikidata"))
             if st.session_state.get("v041_wikidata_query") == mentions[pick]["mention_key"]:
                 hits = st.session_state.get("v041_wikidata_hits", [])
                 if hits:
@@ -110,7 +111,7 @@ def render_quality_tab(st, root: Path, dot_escape):
             st.session_state["v041_enriched_token"] = file_token
             st.success(f"Saved to {path.relative_to(root)}")
         except Exception as exc:
-            st.error(f"Enrichment failed: {exc}")
+            st.error(friendly_error(exc, "Pengayaan KG"))
 
     out = st.session_state.get("v041_enriched")
     if out and st.session_state.get("v041_enriched_token") == file_token:

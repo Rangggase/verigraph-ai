@@ -1,5 +1,4 @@
 """Safety and consistency checks for the seven-claim NER QA pilot."""
-import copy
 import json
 from pathlib import Path
 

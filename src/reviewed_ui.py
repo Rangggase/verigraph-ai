@@ -7,6 +7,7 @@ from pathlib import Path
 
 from networkx.readwrite import json_graph
 
+from src.errors import friendly_error
 from src.entity_linking import search_wikidata_candidates
 from src.reviewed_graph import (
     build_reviewed_graph, get_mention_rows, get_relation_rows, load_v041, resume_v042_as_v041,
@@ -52,7 +53,7 @@ def render_reviewed_tab(st, root: Path, dot_escape):
         mention_rows = get_mention_rows(bundle, graph)
         relation_rows = get_relation_rows(graph)
     except Exception as exc:
-        st.error(f"Could not validate v0.4.1 input: {exc}")
+        st.error(friendly_error(exc, "Validasi input v0.4.1"))
         return
 
     token = hashlib.sha256(incoming).hexdigest()[:12]
@@ -83,7 +84,7 @@ def render_reviewed_tab(st, root: Path, dot_escape):
                     st.session_state["v042_lookup_results"] = hits
                     st.session_state["v042_lookup_key"] = m["mention_key"]
                 except Exception as exc:
-                    st.error(f"Wikidata lookup failed: {exc}")
+                    st.error(friendly_error(exc, "Pencarian Wikidata"))
             if st.session_state.get("v042_lookup_key") == mention_rows[ix]["mention_key"]:
                 hits = st.session_state.get("v042_lookup_results", [])
                 if hits:
@@ -119,7 +120,7 @@ def render_reviewed_tab(st, root: Path, dot_escape):
             st.success(f"Saved both graphs to {saved.relative_to(root)}")
         except Exception as exc:
             st.session_state.pop("v042_output", None)
-            st.error(f"Build was rejected by validation: {exc}")
+            st.error(friendly_error(exc, "Pembangunan graf (ditolak validasi)"))
 
     result = st.session_state.get("v042_output")
     if not result or st.session_state.get("v042_token") != token:

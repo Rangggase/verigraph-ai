@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 from networkx.readwrite import json_graph
 import networkx as nx
