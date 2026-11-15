@@ -1,0 +1,7 @@
+entity_id,entity_type,label_en,label_id,label_zh,aliases_en,aliases_id,aliases_zh,reference_url
+Q17,country,Japan,Jepang,日本,Japan,Jepang,日本,https://www.wikidata.org/wiki/Q17
+Q142,country,France,Prancis,法国,France,Prancis|Perancis,法国,https://www.wikidata.org/wiki/Q142
+Q148,country,China,Tiongkok,中国,China,China|Tiongkok,中国,https://www.wikidata.org/wiki/Q148
+Q1490,city,Tokyo,Tokyo,东京,Tokyo,Tokyo,东京,https://www.wikidata.org/wiki/Q1490
+Q90,city,Paris,Paris,巴黎,Paris,Paris,巴黎,https://www.wikidata.org/wiki/Q90
+Q956,city,Beijing,Beijing,北京,Beijing,Beijing|Peking,北京,https://www.wikidata.org/wiki/Q956

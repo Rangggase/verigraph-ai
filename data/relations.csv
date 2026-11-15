@@ -1,0 +1,4 @@
+subject_id,predicate,object_id,reference_url,source_type,evidence_status
+Q17,capital,Q1490,https://www.wikidata.org/wiki/Q17,wikidata_seed,curated_demo
+Q142,capital,Q90,https://www.wikidata.org/wiki/Q142,wikidata_seed,curated_demo
+Q148,capital,Q956,https://www.wikidata.org/wiki/Q148,wikidata_seed,curated_demo

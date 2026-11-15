@@ -1,0 +1,511 @@
+{
+  "schema_version": "0.4",
+  "warning": "EXTRACTIONS ARE NOT VERIFIED FACTS. Gold labels and justifications not ingested.",
+  "stats": {
+    "claims": 5,
+    "nodes": 23,
+    "edges": 18,
+    "edge_types": {
+      "claim_mention": 18
+    },
+    "ner_errors": 0
+  },
+  "runs": [
+    {
+      "claim_id": "claim:7346067d59ca44bf36fe",
+      "external_id": "averitec_00000",
+      "language": "en",
+      "entities": 3,
+      "candidate_relations": 0,
+      "error": ""
+    },
+    {
+      "claim_id": "claim:96fa344e4d64efcb5f82",
+      "external_id": "averitec_00001",
+      "language": "en",
+      "entities": 3,
+      "candidate_relations": 0,
+      "error": ""
+    },
+    {
+      "claim_id": "claim:b92a547e72fbbfdbbf80",
+      "external_id": "averitec_00002",
+      "language": "en",
+      "entities": 3,
+      "candidate_relations": 0,
+      "error": ""
+    },
+    {
+      "claim_id": "claim:ee035d88ed70d338d8db",
+      "external_id": "averitec_00003",
+      "language": "en",
+      "entities": 5,
+      "candidate_relations": 0,
+      "error": ""
+    },
+    {
+      "claim_id": "claim:d565c1a046b3ea380330",
+      "external_id": "averitec_00004",
+      "language": "en",
+      "entities": 4,
+      "candidate_relations": 0,
+      "error": ""
+    }
+  ],
+  "graph": {
+    "directed": true,
+    "multigraph": true,
+    "graph": {},
+    "nodes": [
+      {
+        "node_type": "unverified_claim",
+        "label": "Hunter Biden had no experience in Ukraine or in the energy sector when he joined the board of Burisma.",
+        "language": "en",
+        "source_dataset": "averitec",
+        "split": "train",
+        "external_id": "averitec_00000",
+        "truth_status": "unverified",
+        "id": "claim:7346067d59ca44bf36fe"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Hunter Biden",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:7346067d59ca44bf36fe:0"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Ukraine",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:7346067d59ca44bf36fe:1"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Burisma",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:7346067d59ca44bf36fe:2"
+      },
+      {
+        "node_type": "unverified_claim",
+        "label": "Donald Trump delivered the largest tax cuts in American history.",
+        "language": "en",
+        "source_dataset": "averitec",
+        "split": "train",
+        "external_id": "averitec_00001",
+        "truth_status": "unverified",
+        "id": "claim:96fa344e4d64efcb5f82"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Donald Trump",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:96fa344e4d64efcb5f82:0"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "largest tax cuts",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:96fa344e4d64efcb5f82:1"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "American history",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:96fa344e4d64efcb5f82:2"
+      },
+      {
+        "node_type": "unverified_claim",
+        "label": "In Nigeria … in terms of revenue share, 20% goes to the local government.",
+        "language": "en",
+        "source_dataset": "averitec",
+        "split": "train",
+        "external_id": "averitec_00002",
+        "truth_status": "unverified",
+        "id": "claim:b92a547e72fbbfdbbf80"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "In Nigeria",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:b92a547e72fbbfdbbf80:0"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "20%",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:b92a547e72fbbfdbbf80:1"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "local government",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:b92a547e72fbbfdbbf80:2"
+      },
+      {
+        "node_type": "unverified_claim",
+        "label": "Biden has pledged to stop border wall construction and give amnesty and health care to all illegal immigrants.",
+        "language": "en",
+        "source_dataset": "averitec",
+        "split": "train",
+        "external_id": "averitec_00003",
+        "truth_status": "unverified",
+        "id": "claim:ee035d88ed70d338d8db"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Biden",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:ee035d88ed70d338d8db:0"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "stop border wall construction",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:ee035d88ed70d338d8db:1"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "amnesty",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:ee035d88ed70d338d8db:2"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "health care",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:ee035d88ed70d338d8db:3"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "illegal immigrants",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:ee035d88ed70d338d8db:4"
+      },
+      {
+        "node_type": "unverified_claim",
+        "label": "After the police shooting of Jacob Blake, Gov. Tony Evers & Lt. Gov. Mandela Barnes did not call for peace or encourage calm.",
+        "language": "en",
+        "source_dataset": "averitec",
+        "split": "train",
+        "external_id": "averitec_00004",
+        "truth_status": "unverified",
+        "id": "claim:d565c1a046b3ea380330"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "police shooting",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:d565c1a046b3ea380330:0"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Jacob Blake",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:d565c1a046b3ea380330:1"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Gov. Tony Evers",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:d565c1a046b3ea380330:2"
+      },
+      {
+        "node_type": "unresolved_mention",
+        "label": "Lt. Gov. Mandela Barnes",
+        "wikidata_id": "",
+        "linkage_method": "unresolved",
+        "id": "mention:d565c1a046b3ea380330:3"
+      }
+    ],
+    "links": [
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Hunter Biden",
+        "ner_label": "person",
+        "ner_score": 0.9914,
+        "start": 0,
+        "end": 12,
+        "provenance_claim_id": "claim:7346067d59ca44bf36fe",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:7346067d59ca44bf36fe",
+        "target": "mention:7346067d59ca44bf36fe:0",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Ukraine",
+        "ner_label": "location",
+        "ner_score": 0.9645,
+        "start": 34,
+        "end": 41,
+        "provenance_claim_id": "claim:7346067d59ca44bf36fe",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:7346067d59ca44bf36fe",
+        "target": "mention:7346067d59ca44bf36fe:1",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Burisma",
+        "ner_label": "organization",
+        "ner_score": 0.968,
+        "start": 94,
+        "end": 101,
+        "provenance_claim_id": "claim:7346067d59ca44bf36fe",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:7346067d59ca44bf36fe",
+        "target": "mention:7346067d59ca44bf36fe:2",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Donald Trump",
+        "ner_label": "person",
+        "ner_score": 0.9911,
+        "start": 0,
+        "end": 12,
+        "provenance_claim_id": "claim:96fa344e4d64efcb5f82",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:96fa344e4d64efcb5f82",
+        "target": "mention:96fa344e4d64efcb5f82:0",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "largest tax cuts",
+        "ner_label": "event",
+        "ner_score": 0.4241,
+        "start": 27,
+        "end": 43,
+        "provenance_claim_id": "claim:96fa344e4d64efcb5f82",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:96fa344e4d64efcb5f82",
+        "target": "mention:96fa344e4d64efcb5f82:1",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "American history",
+        "ner_label": "location",
+        "ner_score": 0.3935,
+        "start": 47,
+        "end": 63,
+        "provenance_claim_id": "claim:96fa344e4d64efcb5f82",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:96fa344e4d64efcb5f82",
+        "target": "mention:96fa344e4d64efcb5f82:2",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "In Nigeria",
+        "ner_label": "location",
+        "ner_score": 0.8755,
+        "start": 0,
+        "end": 10,
+        "provenance_claim_id": "claim:b92a547e72fbbfdbbf80",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:b92a547e72fbbfdbbf80",
+        "target": "mention:b92a547e72fbbfdbbf80:0",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "20%",
+        "ner_label": "event",
+        "ner_score": 0.3654,
+        "start": 40,
+        "end": 43,
+        "provenance_claim_id": "claim:b92a547e72fbbfdbbf80",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:b92a547e72fbbfdbbf80",
+        "target": "mention:b92a547e72fbbfdbbf80:1",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "local government",
+        "ner_label": "organization",
+        "ner_score": 0.7765,
+        "start": 56,
+        "end": 72,
+        "provenance_claim_id": "claim:b92a547e72fbbfdbbf80",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:b92a547e72fbbfdbbf80",
+        "target": "mention:b92a547e72fbbfdbbf80:2",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Biden",
+        "ner_label": "person",
+        "ner_score": 0.9798,
+        "start": 0,
+        "end": 5,
+        "provenance_claim_id": "claim:ee035d88ed70d338d8db",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:ee035d88ed70d338d8db",
+        "target": "mention:ee035d88ed70d338d8db:0",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "stop border wall construction",
+        "ner_label": "event",
+        "ner_score": 0.6536,
+        "start": 21,
+        "end": 50,
+        "provenance_claim_id": "claim:ee035d88ed70d338d8db",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:ee035d88ed70d338d8db",
+        "target": "mention:ee035d88ed70d338d8db:1",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "amnesty",
+        "ner_label": "event",
+        "ner_score": 0.6473,
+        "start": 60,
+        "end": 67,
+        "provenance_claim_id": "claim:ee035d88ed70d338d8db",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:ee035d88ed70d338d8db",
+        "target": "mention:ee035d88ed70d338d8db:2",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "health care",
+        "ner_label": "event",
+        "ner_score": 0.6261,
+        "start": 72,
+        "end": 83,
+        "provenance_claim_id": "claim:ee035d88ed70d338d8db",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:ee035d88ed70d338d8db",
+        "target": "mention:ee035d88ed70d338d8db:3",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "illegal immigrants",
+        "ner_label": "organization",
+        "ner_score": 0.4808,
+        "start": 91,
+        "end": 109,
+        "provenance_claim_id": "claim:ee035d88ed70d338d8db",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:ee035d88ed70d338d8db",
+        "target": "mention:ee035d88ed70d338d8db:4",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "police shooting",
+        "ner_label": "event",
+        "ner_score": 0.6786,
+        "start": 10,
+        "end": 25,
+        "provenance_claim_id": "claim:d565c1a046b3ea380330",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:d565c1a046b3ea380330",
+        "target": "mention:d565c1a046b3ea380330:0",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Jacob Blake",
+        "ner_label": "person",
+        "ner_score": 0.9289,
+        "start": 29,
+        "end": 40,
+        "provenance_claim_id": "claim:d565c1a046b3ea380330",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:d565c1a046b3ea380330",
+        "target": "mention:d565c1a046b3ea380330:1",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Gov. Tony Evers",
+        "ner_label": "person",
+        "ner_score": 0.8864,
+        "start": 42,
+        "end": 57,
+        "provenance_claim_id": "claim:d565c1a046b3ea380330",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:d565c1a046b3ea380330",
+        "target": "mention:d565c1a046b3ea380330:2",
+        "key": 0
+      },
+      {
+        "relation": "MENTIONS",
+        "edge_kind": "claim_mention",
+        "surface": "Lt. Gov. Mandela Barnes",
+        "ner_label": "person",
+        "ner_score": 0.9119,
+        "start": 60,
+        "end": 83,
+        "provenance_claim_id": "claim:d565c1a046b3ea380330",
+        "extraction_method": "GLiNER",
+        "truth_status": "unverified",
+        "source": "claim:d565c1a046b3ea380330",
+        "target": "mention:d565c1a046b3ea380330:3",
+        "key": 0
+      }
+    ]
+  },
+  "rejected_rows": []
+}

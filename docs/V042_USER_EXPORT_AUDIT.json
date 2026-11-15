@@ -1,0 +1,33 @@
+{
+  "source": "User-provided v0.4.2 project ZIP",
+  "schema_version": "0.4.2",
+  "validation": {
+    "passed": true,
+    "errors": [],
+    "directed": true,
+    "node_count": 7,
+    "edge_count": 2
+  },
+  "report": {
+    "claim_count": 5,
+    "mention_decisions": {
+      "accepted_mention": 2,
+      "pending": 16
+    },
+    "relation_decisions": {
+      "pending": 2
+    },
+    "canonical_qids": 0,
+    "accepted_relation_edges_in_clean": 0,
+    "accepted_relations_excluded_due_to_endpoints": 0,
+    "raw_nodes": 23,
+    "raw_edges": 20,
+    "clean_nodes": 7,
+    "clean_edges": 2,
+    "clean_edge_types": {
+      "claim_mention": 2
+    },
+    "gnn_message_edges": 4
+  },
+  "warning": "The uploaded v0.4.2 export differs from earlier v0.4.1: 2 accepted, 16 pending, 0 rejected. Review state may have been reloaded/reset; this is not silently corrected by v0.5."
+}

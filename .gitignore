@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.env
+.env.*
+!.env.example
+outputs/*
+!outputs/.gitkeep
+.DS_Store
+
+# Locally downloaded evaluation data: large files, licenses, and provenance
+data/datasets/

@@ -1,0 +1,3 @@
+-r requirements-ml.txt
+# Install PyTorch for your hardware separately; do not force-reinstall it.
+transformers>=4.45,<5

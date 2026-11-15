@@ -1,0 +1,19 @@
+claim_id,language,text,expected_relation
+EN01,en,Tokyo is the capital of Japan.,supported
+EN02,en,Paris is the capital of Japan.,conflict
+EN03,en,Paris is the capital of France.,supported
+EN04,en,Beijing is the capital of France.,conflict
+EN05,en,Beijing is the capital of China.,supported
+EN06,en,Tokyo is the capital of China.,conflict
+ID01,id,Tokyo adalah ibu kota Jepang.,supported
+ID02,id,Paris adalah ibu kota Jepang.,conflict
+ID03,id,Paris adalah ibu kota Prancis.,supported
+ID04,id,Beijing adalah ibu kota Prancis.,conflict
+ID05,id,Beijing adalah ibu kota Tiongkok.,supported
+ID06,id,Tokyo adalah ibu kota Tiongkok.,conflict
+ZH01,zh,东京是日本的首都。,supported
+ZH02,zh,巴黎是日本的首都。,conflict
+ZH03,zh,巴黎是法国的首都。,supported
+ZH04,zh,北京是法国的首都。,conflict
+ZH05,zh,北京是中国的首都。,supported
+ZH06,zh,东京是中国的首都。,conflict
