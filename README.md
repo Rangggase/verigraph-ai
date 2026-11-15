@@ -1,141 +1,97 @@
-# VeriGraph AI v0.4.2 — Reviewed, Canonical & GNN-Ready Graphs
+# VeriGraph AI
 
-**New in v0.4.2:** an additional Streamlit tab separates the complete audit graph from a human-reviewed clean graph, supports manual canonical QIDs, accepts/rejects semantic extraction independently, and exports symmetric message-passing adjacency for future GNN experiments. **Nothing in this app fact-checks claims yet.**
+Workbench untuk membangun **knowledge graph (KG) dari klaim berita** dalam tiga bahasa (Indonesia, Inggris, Mandarin), dengan review manusia di setiap langkah penting. Proyek portofolio Sistem Informasi.
 
-Start (within `verigraph_ai_starter`):
+> **Batas klaim yang jujur:** VeriGraph **tidak memverifikasi kebenaran klaim**. Semua relasi yang berasal dari klaim berstatus `unverified`. Baseline ML hanya mengklasifikasi teks klaim, tanpa bukti. Jangan membaca keluarannya sebagai deteksi hoaks.
 
-```cmd
-conda activate kg_e
-python -m pytest -q
-python -m streamlit run app.py
+## Masalah dan solusi
+
+| Masalah | Pendekatan di proyek ini |
+|---|---|
+| Hasil NER otomatis pada klaim multibahasa sering salah (mis. "American history" dianggap lokasi) | Antarmuka review bertahap: terima, revisi, tolak, atau tandai perlu konteks; semua keputusan tersimpan dengan jejak audit |
+| Graf dari klaim mudah disalahartikan sebagai fakta | Skema memaksa `truth_status = unverified`; validasi menolak label emas, bukti, atau justifikasi masuk graf (anti kebocoran data) |
+| Identitas entitas ambigu | Wikidata hanya memberi *kandidat*; QID baru masuk setelah disetujui manusia |
+| Hasil eksperimen sulit direproduksi | Split data dicek tanpa tumpang tindih, model ditandatangani SHA-256, metrik disimpan di JSON |
+
+## Arsitektur
+
+```mermaid
+flowchart LR
+  A[Dataset klaim<br/>CSV/JSONL] --> B[Impor + batas ukuran<br/>blokir split test]
+  B --> C[NER GLiNER]
+  C --> D[Relasi kandidat<br/>berbasis aturan]
+  D --> E[Graf batch<br/>unverified]
+  E --> F[Review manusia<br/>kualitas + QID]
+  F --> G[Graf bersih<br/>audit / clean / GNN-ready]
+  A --> H[Baseline ML<br/>TF-IDF + LogReg]
+  H --> I[Metrik + model bertanda tangan]
 ```
 
-Open tab **6. Reviewed & Clean KG (v0.4.2)**. Saved input: `outputs/batch_kg_v041.json`. The original v0.1–v0.4.1 features remain available. For offline processing, run `python scripts/build_clean_kg.py`. Full instructions: [docs/UPGRADE_V042.md](docs/UPGRADE_V042.md).
+Detail, ERD data JSON, dan diagram alur review ada di [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
----
+## Hasil pengujian (terukur, dijalankan 15 Nov 2026)
 
-# VeriGraph AI v0.4.1 — Multilingual Knowledge Graph Quality & Enrichment
+| Metrik | Nilai |
+|---|---|
+| Tes otomatis (pytest) | **130 lulus, 0 gagal** (unit, integrasi, 7 alur E2E UI via Streamlit AppTest) |
+| Cakupan baris `src/` | **67%**. Modul logika inti jauh lebih tinggi; modul render Streamlit dicakup sebagian oleh tes E2E |
+| Lint (ruff, aturan F/E9) | bersih |
+| Kontras warna tema | seluruh pasangan token lulus WCAG AA (diuji di `tests/test_theme.py`) |
+| Baseline klaim-saja CFEVER (dev 3.000) | Macro-F1 **0,422** vs. mayoritas 0,167 (TF-IDF + Logistic Regression) |
 
-**NEW: [Complete v0.4.1 quickstart, precautions and CLI](docs/UPGRADE_V041.md)**
+Baseline 0,422 menunjukkan klaim mengandung pola bahasa yang bisa dipelajari, **bukan** kemampuan memeriksa fakta. Model XLM-R yang di-fine-tune penuh (FP32) runtuh ke satu kelas (Macro-F1 0,167); hasil itu dicatat apa adanya di `docs/MODEL_CARD_V05.md`.
 
-Continue using the original v0.1–v0.4 tabs. The **fifth tab** loads a saved v0.4 JSON graph, flags low-quality NER output, accepts manual entity reviews and Wikidata QIDs, and proposes semantic relations using offline rules or an optional local Ollama LLM. All claim assertions remain **unverified**.
+Review KG saat ini: 18 mention dari 5 klaim AVeriTeC, 5 diterima, 2 ditolak, 11 menunggu; 0 QID tervalidasi (`python scripts/kg_coverage_report.py data/examples/batch_kg_v042_reviewed.json`). Review NER pilot CFEVER 50 klaim masih berjalan.
 
-```
-conda activate kg_e
-python -m pytest -q
-python -m streamlit run app.py
-```
-
-You can use the bundled `data/examples/averitec_5_v04.json` immediately, or upload your own v0.4 export. No need to rerun GLiNER.
-
----
-
-> **Latest: VeriGraph AI v0.4** — batch CSV/JSONL import, GLiNER multilingual NER, unverified candidate relation KG, manually reviewed QID mapping, and JSON export. **Not a fake-news classifier or a truth verifier.** See [v0.4 upgrade guide](docs/UPGRADE_V04.md).
-
-# VeriGraph AI — Multilingual Knowledge Graph (MVP Starter)
-
-A portfolio project scaffold inspired by a 4-month multilingual KG fake-news detection roadmap, **adapted for a quick, testable engineering portfolio**.
-
-**Three languages:** Indonesian (`id`), English (`en`), Chinese (`zh`).
-
-> **Current scope / honesty statement:** v0.1 is an interactive, curated knowledge-graph demonstration using a narrow rule-based parser for capital-of claims. **It is not a trained fake-news classifier, not an LLM pipeline, and does not prove the truth of arbitrary claims.** `data/demo_claims.csv` is an illustrative fixture, NOT a research evaluation dataset.
-
-## Quick start (Windows PowerShell, new environment)
+## Menjalankan lokal
 
 ```powershell
-python --version
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python -m src.build_graph
-python -m src.evaluate_demo
+pip install -r requirements-dev.txt        # inti + ML + pytest + ruff
 python -m pytest -q
 streamlit run app.py
 ```
 
-If PowerShell activation is blocked, use Command Prompt (`.venv\Scripts\activate.bat`) or invoke `.venv\Scripts\python.exe` directly.
+Fitur opsional: `pip install -r requirements-ner.txt` (NER GLiNER + Wikidata), `requirements-dl.txt` (transformers; pasang PyTorch sesuai perangkat). Salin `.env.example` ke `.env` untuk mengatur `WIKIDATA_USER_AGENT`.
 
-macOS/Linux: `source .venv/bin/activate`.
+Dataset CFEVER dan AVeriTeC **tidak disertakan**; letakkan sendiri di `data/datasets/` (cek lisensinya). Untuk melatih baseline:
 
-## What's working in v0.1?
-
-- Stable Wikidata-aligned IDs shared across three languages (e.g. Japan = `Q17`)
-- Curated node and relationship data with reference links
-- A multilingual alias dictionary for a *single* simple claim pattern
-- Demonstration graph exported as `GraphML` and JSON
-- Interactive Streamlit visualization and inspection of evidence references
-- Tests for 18 examples and safe "insufficient evidence" responses
-
-## What was *not* implemented in v0.1? (historical baseline)
-
-- General purpose multilingual NER and entity linking
-- Automated fact extraction with an LLM
-- Text-only machine-learning classifier
-- GNN / text-graph fusion
-- Full evidence provenance and date-aware retrieval
-- Scientific multilingual / cross-lingual evaluation
-
-## Original v0.1 project structure (historical; see v0.4 guide for current layout)
-
-```text
-verigraph_ai_starter/
-├── app.py                       # interactive prototype
-├── requirements.txt
-├── data/
-│   ├── entities.csv             # shared entity IDs and aliases
-│   ├── relations.csv            # curated relations + references
-│   └── demo_claims.csv          # illustrative examples, NOT benchmark
-├── src/
-│   ├── core.py                  # load, link, inspect demo relation
-│   ├── build_graph.py           # GraphML and JSON export
-│   └── evaluate_demo.py        # smoke fixture consistency only
-├── tests/test_core.py
-├── docs/
-│   ├── ROADMAP_4_WEEKS.md
-│   └── DATA_CONTRACT.md
-└── outputs/                      # generated, gitignored
+```bash
+python scripts/train_ml_baseline.py --dataset cfever --train data/datasets/cfever/train.jsonl --dev data/datasets/cfever/dev.jsonl --output outputs/ml_v05/cfever
 ```
 
-## Key design rules
+## Deployment
 
-1. **No data leakage:** keep gold verdicts and fact-check explanations out of retrieval knowledge accessible during test inference.
-2. **No automatic trust:** triples mined from unverified claims are *assertions*, not trusted facts.
-3. **Track sources:** attach provenance and, where relevant, dates to factual assertions.
-4. **Open-world reasoning:** missing information cannot be treated as fake.
-5. **Honest measurement:** rule-based demonstration accuracy on handcrafted fixtures is **not** a model metric.
+Aplikasi ini Streamlit (server Python), jadi **bukan** target Vercel. Opsi siap pakai:
 
-## Next steps
+- **Docker:** `docker build -t verigraph . && docker run -p 8501:8501 verigraph`
+- **Streamlit Community Cloud:** arahkan ke `app.py`, `requirements.txt`; tambahkan `requirements-ner.txt` hanya bila NER dibutuhkan.
 
-See [4-week development plan](docs/ROADMAP_4_WEEKS.md).
+Tab NER/Wikidata memerlukan paket opsional dan unduhan model; demo publik tanpa paket itu tetap berjalan untuk tab lain.
 
-## Source links
+## Struktur folder
 
-- Wikidata action API: https://www.wikidata.org/wiki/Wikidata:REST_API/Comparison/en
-- Wikidata item identifiers in `data/entities.csv`
-- Indonesian fact-check corpus candidate: https://huggingface.co/datasets/nlp-brin-id/fakenews-mafindo (has documented sampling limitations; audit before use)
-- Multilingual spaCy NER candidate: https://spacy.io/models/xx (needs per-language quality checks)
+```text
+app.py                  entry Streamlit (8 tab + mode pemula)
+src/                    logika KG, review, validasi, tema (lihat CLAUDE.md)
+scripts/                CLI: batch KG, latih baseline, laporan cakupan
+tests/                  unit + integrasi + E2E UI
+data/examples/          contoh KG hasil review (dilacak git)
+docs/                   ARCHITECTURE, DATA_CONTRACT, MODEL_CARD_V05, history/
+.streamlit/config.toml  tema dan setelan server
+```
 
-## License
+## Keamanan
 
-This starter code is a reusable portfolio scaffold. Validate third-party dataset/model licenses independently before distribution.
+- Tanpa kredensial di kode; konfigurasi lewat env (`.env.example`).
+- Berkas model joblib hanya dimuat jika cocok dengan tanda tangan SHA-256 (`src/model_integrity.py`); unggahan pickle tidak pernah diterima.
+- Impor dataset: batas 75 MB / 1.000 baris / 1.500 karakter per klaim; file split test diblokir.
+- Endpoint LLM lokal opsional dibatasi ke loopback (anti-SSRF). Pesan error ke pengguna tidak membocorkan path atau stack trace.
+- Penyimpanan keputusan review atomik (tulis ke file sementara lalu ganti) dengan digest sumber untuk mencegah penggabungan data yang tidak cocok.
 
-## Update v0.2: multilingual NER workbench
+Proyek ini tidak memakai database relasional maupun akun pengguna; "integritas data" dijaga lewat skema JSON bertingkat dan validasi fail-closed.
 
-This ZIP also includes an **optional** NER + Wikidata workbench in Streamlit tab 2.
-Install `requirements-ner.txt` before using tab 2, then see `docs/UPGRADE_V02.md`.
-It is separate from the existing curated capital-of graph; new claim mentions
-are unverified and **cannot** be interpreted as supporting or refuting a news claim.
+## Lisensi dan data
 
-## NEW — v0.4 Real Dataset Batch KG
-
-Built as an extension of v0.3; see [docs/UPGRADE_V04.md](docs/UPGRADE_V04.md).
-
-- Streamlit tab **4. Batch Dataset KG (v0.4)** imports CSV / JSONL / JSON,
-  optionally runs GLiNER NER, uses rule-based candidate relation extraction,
-  and exports an **unverified** multi-claim graph.
-- Put your real datasets inside `data/datasets/averitec/` and `data/datasets/cfever/`
-  below this project root.
-- Start with just 5 claims on CPU. For CLI use `python scripts/run_batch.py --help`.
-- **Do not claim fake-news detection yet**: v0.4 constructs candidate graphs,
-  not fact verification or a trained classifier. Gold labels are excluded.
+Kode: portofolio edukasi. Lisensi dataset dan model pihak ketiga harus diperiksa sendiri sebelum distribusi.
